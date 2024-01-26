@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cni-test-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: go-hello-world
+  template:
+    metadata:
+      labels:
+        app: go-hello-world
+    spec:
+      containers:
+      - name: go-hello-world-container
+        image: go-hello-world-image:v0.0.1 # 替换为您的镜像名称和标签
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080 # 假设服务监听在容器内部的8080端口
