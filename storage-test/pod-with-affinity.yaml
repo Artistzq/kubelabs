@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-hostpath-affinity
+spec:
+  affinity:
+    nodeAffinity: # 节点亲和性，
+      requiredDuringSchedulingIgnoredDuringExecution: # 强制性亲和性规则，在调度时必须满足，但不影响运行时
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - storage-cluster-worker # 节点名称
+  containers:
+  - name: myapp-container
+    image: go-hello-world-image:v0.0.1
+    volumeMounts:
+    - mountPath: /go-logs # 把 PV 挂载 到 Pod 内的目录 /go-logs
+      name: hostpath-volume
+    command: ["/bin/sh", "-c"]
+    args:
+    - while true; do echo "$(date +'%H:%M:%S') Hello World" >> /go-logs/output.txt; sleep 5; done # 每5秒向/go-logs/output.txt中追加当前时间和消息
+  volumes:
+  - name: hostpath-volume
+    persistentVolumeClaim:
+      claimName: hostpath-pvc # 使用PVC申请存储资源

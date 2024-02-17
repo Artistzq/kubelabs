@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: hostpath-pv
+spec:
+  capacity:
+    storage: 10Mi # 设置存储容量为10MB
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain # 根据实际情况选择合适的策略
+  storageClassName: manual 
+  hostPath:
+    path: /data/hostpath-pv

@@ -1,0 +1,12 @@
+# nfs-pvc
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-pvc
+spec:
+  accessModes:
+    - ReadWriteMany 
+  storageClassName: nfs-sc # 使用刚才创建的 Storage Class 名
+  resources:
+    requests:
+      storage: 10Mi # 

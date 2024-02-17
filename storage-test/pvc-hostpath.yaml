@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hostpath-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: manual # 与上面PV的storageClassName一致
+  resources:
+    requests:
+      storage: 10Mi # 与PV中定义的存储容量一致

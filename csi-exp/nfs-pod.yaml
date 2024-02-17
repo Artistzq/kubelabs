@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nfs-pod
+spec:
+  containers:
+  - name: go-container
+    image: go-hello-world-image:v0.0.1
+    volumeMounts:
+    - mountPath: /mnt/nfs # 挂载点
+      name: nfs-volume
+    command: ["/bin/sh", "-c"]
+    args:
+    - while true; do echo "$(date +'%H:%M:%S') Hello World" >> /mnt/nfs/output.txt; sleep 5; done # 每5秒向//mnt/nfs/output.txt中追加当前时间和消息
+  volumes:
+  - name: nfs-volume
+    persistentVolumeClaim:
+      claimName: nfs-pvc # 绑定 PVC

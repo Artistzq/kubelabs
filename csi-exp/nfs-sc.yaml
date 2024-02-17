@@ -1,0 +1,11 @@
+# nfs-csi-sc.yaml
+allowVolumeExpansion: true # 允许扩张
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-sc
+provisioner: nfs.csi.k8s.io # 指定 CSI 驱动程序
+parameters:
+  server: nfs-server # NFS 服务器 IP 地址 （Docker 网络）
+  share: / # 在NFS服务器上共享的路径
+reclaimPolicy: Retain # 可根据需要设置为Delete或其他策略
